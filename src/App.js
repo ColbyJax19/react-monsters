@@ -1,11 +1,16 @@
 import './App.css';
 import { Component } from 'react';
 
+import CardList from './components/card-list/card-list.component.jsx';
+import SearchBox from './components/search-box/search-box.component';
+// import Card from './components/card/card.component';
+
 class App extends Component{
   constructor(){
     super()
     this.state = {
-      monsters:[] 
+      monsters:[],
+      searchField: ''
 
     }
   }
@@ -20,29 +25,26 @@ class App extends Component{
       ))
   }
 
+  onSearchChange = (event) => {
+    const searchField = event.target.value.toLowerCase()
+    this.setState(() => {
+    return {searchField}
+    })
+  }
+  
+
   render(){
+    console.log('render')
+    const {monsters, searchField} = this.state
+    const {onSearchChange} = this
+
+    const filteredMonsters = monsters.filter((monster) => {
+    return monster.name.toLowerCase().includes(searchField)
+  })
   return (
     <div className="App">
-      <input className='search-box' 
-      type='search' 
-      placeholder='Search Monsters' 
-      onChange={(event) => {
-            const searchString = event.target.value.toLowerCase()
-            const filteredMonsters = this.state.monsters.filter((monster) => {
-              return monster.name.toLowerCase().includes(searchString)
-            })
-            this.setState(() => {
-              return {monsters:filteredMonsters}
-            })
-          }} />
-      {
-        this.state.monsters.map((monster) => {
-          return  <div id='{monster.id}'> 
-                    <h1>{monster.name}</h1> 
-                 </div>
-        })
-      }
-      
+      < SearchBox onChangeHandler = {onSearchChange} placeholder = "Search for Monsters!" className='search'/>
+      <CardList monsters={filteredMonsters}/>
     </div>
   );
 }
