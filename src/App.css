@@ -14,5 +14,9 @@ body {
   text-align: center;
 }
 
-
-
+.app-title {
+  margin-top: 25px;
+  margin-bottom: 20px;
+  font-size: 76px;
+  color: #0ccac4;
+}
